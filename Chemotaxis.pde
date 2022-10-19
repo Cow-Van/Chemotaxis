@@ -4,7 +4,7 @@ public final int rockColor = #00ff00;
 public final int paperColor = #ff0000;
 public final int scissorColor = #4444ff;
 
-public final float speed = 0.1;
+public final float speed = 0.125;
 public final float wid = 15;
 public final float hei = 15;
 public final float randomMove = 5 * speed;
