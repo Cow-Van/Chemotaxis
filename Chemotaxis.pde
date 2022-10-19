@@ -8,7 +8,9 @@ public void setup() {
 }
 
 public void draw() {    
-  for (Rock rock : rocks) {
+  for (int i = 0; i < rocks.size(); i++) {
+    Rock rock = rocks.get(i);
+  
     rock.move();
     rock.show();
   }
@@ -53,7 +55,9 @@ public class Rock {
     Paper closestPaper = null;
     float closestDistance = MAX_FLOAT;
 
-    for (Paper paper : papers) {
+    for (int i = 0; i < papers.size(); i++) {
+      Paper paper = papers.get(i);
+    
       if (closestPaper == null || distance(paper.getX(), paper.getY()) < closestDistance) {
         closestPaper = paper;
       }
