@@ -1,27 +1,27 @@
-public final float speed = 0.25;
-
-public final float randomMove = 5 * speed;
-public final float allyMove = 9 * speed;
-public final float preyMove = 10 * speed;
-public final float predatorMove = 15 * speed;
-public final float allyDistance = 40;
-public final float preyDistance = 200;
-public final float predatorDistance = 225;
-public final float wid = 20;
-public final float hei = 20;
-
-public final float totalUnits = 50;
+public final float totalUnits = 75;
 public final float killRange = 20;
 public final int rockColor = #00ff00;
 public final int paperColor = #ff0000;
-public final int scissorColor = #0000ff;
+public final int scissorColor = #4444ff;
+
+public final float speed = 0.1;
+public final float wid = 15;
+public final float hei = 15;
+public final float randomMove = 5 * speed;
+public final float explorationMove = 20 * speed;
+public final float allyMove = 10 * speed;
+public final float preyMove = 10 * speed;
+public final float predatorMove = 15 * speed;
+public final float allyDistance = 50;
+public final float preyDistance = 200;
+public final float predatorDistance = 150;
 
 public final ArrayList<Rock> rocks = new ArrayList();
 public final ArrayList<Paper> papers = new ArrayList();
 public final ArrayList<Scissor> scissors = new ArrayList();
 
 public void setup() {
-  size(500, 500);
+  size(750, 750);
   
   for (int i = 0; i < totalUnits; i++) {
     double d = Math.random();
@@ -46,7 +46,8 @@ public void draw() {
   ArrayList<Scissor> scissorsToRemove = new ArrayList();
   
   if (papers.size() > 0) {
-    for (Rock rock : rocks) {
+    for (int i = 0; i < rocks.size(); i++) {
+      Rock rock = rocks.get(i);
       Paper closestPredator = rock.closestPaper();
       
       if (dist(rock.getX(), rock.getY(), closestPredator.getX(), closestPredator.getY()) < killRange) {
@@ -57,7 +58,9 @@ public void draw() {
   }
   
   if (scissors.size() > 0) {
-    for (Paper paper : papers) {
+    for (int i = 0; i < papers.size(); i++) {
+      Paper paper = papers.get(i);
+      
       Scissor closestPredator = paper.closestScissor();
       
       if (dist(paper.getX(), paper.getY(), closestPredator.getX(), closestPredator.getY()) < killRange) {
@@ -68,7 +71,9 @@ public void draw() {
   }
   
   if (rocks.size() > 0) {
-    for (Scissor scissor : scissors) {
+    for (int i = 0; i < scissors.size(); i++) {
+      Scissor scissor = scissors.get(i);
+      
       Rock closestPredator = scissor.closestRock();
       
       if (dist(scissor.getX(), scissor.getY(), closestPredator.getX(), closestPredator.getY()) < killRange) {
@@ -86,17 +91,23 @@ public void draw() {
   papers.addAll(papersToAdd);
   scissors.addAll(scissorsToAdd);
   
-  for (Rock rock : rocks) {
+  for (int i = 0; i < rocks.size(); i++) {
+    Rock rock = rocks.get(i);
+    
     rock.move();
     rock.show();
   }
   
-  for (Paper paper : papers) {
+  for (int i = 0; i < papers.size(); i++) {
+    Paper paper = papers.get(i);
+    
     paper.move();
     paper.show();
   }
   
-  for (Scissor scissor : scissors) {
+  for (int i = 0; i < scissors.size(); i++) {
+    Scissor scissor = scissors.get(i);
+    
     scissor.move();
     scissor.show();
   }
@@ -114,6 +125,8 @@ public class Rock {
   }
   
   public void move() {
+    boolean explore = true;
+    
     Rock closestAlly = closestRock();
     Paper closestPredator = closestPaper();
     Scissor closestPrey = closestScissor();
@@ -130,6 +143,8 @@ public class Rock {
       
       x += (sin(angle) + Math.random()) * predatorMove - predatorMove / 2f;
       y += (cos(angle) + Math.random()) * predatorMove - predatorMove / 2f;
+      
+      explore = false;
     }
     
     if (closestPrey != null && dist(closestPrey.getX(), closestPrey.getY(), x, y) < preyDistance) {
@@ -137,6 +152,13 @@ public class Rock {
       
       x += (sin(angle) + Math.random()) * preyMove - preyMove / 2f;
       y += (cos(angle) + Math.random()) * preyMove - preyMove / 2f; 
+      
+      explore = false;
+    }
+    
+    if (explore) {
+      x += (Math.random() * explorationMove) - explorationMove / 2f;
+      y += (Math.random() * explorationMove) - explorationMove / 2f;
     }
     
     x += (Math.random() * randomMove) - randomMove / 2f;
@@ -181,7 +203,9 @@ public class Rock {
     Rock closestRock = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Rock rock : rocks) {
+    for (int i = 0; i < rocks.size(); i++) {
+      Rock rock = rocks.get(i);
+      
       float rockDistance = dist(x, y, rock.getX(), rock.getY());
       
       if (closestRock == null || rockDistance < closestDistance) {
@@ -197,7 +221,9 @@ public class Rock {
     Paper closestPaper = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Paper paper : papers) {
+    for (int i = 0; i < papers.size(); i++) {
+      Paper paper = papers.get(i);
+      
       float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
@@ -213,11 +239,13 @@ public class Rock {
     Scissor closestScissor = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Scissor scissor : scissors) {
-      float rockDistance = dist(x, y, scissor.getX(), scissor.getY());
+    for (int i = 0; i < scissors.size(); i++) {
+      Scissor scissor = scissors.get(i);
       
-      if (closestScissor == null || rockDistance < closestDistance) {
-        closestDistance = rockDistance;
+      float scissorDistance = dist(x, y, scissor.getX(), scissor.getY());
+      
+      if (closestScissor == null || scissorDistance < closestDistance) {
+        closestDistance = scissorDistance;
         closestScissor = scissor;
       }
     }
@@ -246,6 +274,8 @@ public class Paper {
   }
   
   public void move() {
+    boolean explore = true;
+    
     Paper closestAlly = closestPaper();
     Scissor closestPredator = closestScissor();
     Rock closestPrey = closestRock();
@@ -262,6 +292,8 @@ public class Paper {
       
       x += (sin(angle) + Math.random()) * predatorMove - predatorMove / 2f;
       y += (cos(angle) + Math.random()) * predatorMove - predatorMove / 2f;
+      
+      explore = false;
     }
     
     if (closestPrey != null && dist(closestPrey.getX(), closestPrey.getY(), x, y) < preyDistance) {
@@ -269,6 +301,13 @@ public class Paper {
       
       x += (sin(angle) + Math.random()) * preyMove - preyMove / 2f;
       y += (cos(angle) + Math.random()) * preyMove - preyMove / 2f; 
+      
+      explore = false;
+    }
+    
+    if (explore) {
+      x += (Math.random() * explorationMove) - explorationMove / 2f;
+      y += (Math.random() * explorationMove) - explorationMove / 2f;
     }
     
     x += (Math.random() * randomMove) - randomMove / 2f;
@@ -313,7 +352,9 @@ public class Paper {
     Rock closestRock = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Rock rock : rocks) {
+    for (int i = 0; i < rocks.size(); i++) {
+      Rock rock = rocks.get(i);
+      
       float rockDistance = dist(x, y, rock.getX(), rock.getY());
       
       if (closestRock == null || rockDistance < closestDistance) {
@@ -329,8 +370,10 @@ public class Paper {
     Paper closestPaper = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Paper paper : papers) {
-      float paperDistance = dist(x, y, paper.getX(), paper.getY());
+    for (int i = 0; i < papers.size(); i++) {
+      Paper paper = papers.get(i);
+      
+      float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
         closestDistance = paperDistance;
@@ -345,11 +388,13 @@ public class Paper {
     Scissor closestScissor = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Scissor scissor : scissors) {
-      float rockDistance = dist(x, y, scissor.getX(), scissor.getY());
+    for (int i = 0; i < scissors.size(); i++) {
+      Scissor scissor = scissors.get(i);
       
-      if (closestScissor == null || rockDistance < closestDistance) {
-        closestDistance = rockDistance;
+      float scissorDistance = dist(x, y, scissor.getX(), scissor.getY());
+      
+      if (closestScissor == null || scissorDistance < closestDistance) {
+        closestDistance = scissorDistance;
         closestScissor = scissor;
       }
     }
@@ -378,6 +423,8 @@ public class Scissor {
   }
   
   public void move() {
+    boolean explore = true;
+    
     Scissor closestAlly = closestScissor();
     Rock closestPredator = closestRock();
     Paper closestPrey = closestPaper();
@@ -394,6 +441,8 @@ public class Scissor {
       
       x += (sin(angle) + Math.random()) * predatorMove - predatorMove / 2f;
       y += (cos(angle) + Math.random()) * predatorMove - predatorMove / 2f;
+      
+      explore = false;
     }
     
     if (closestPrey != null && dist(closestPrey.getX(), closestPrey.getY(), x, y) < preyDistance) {
@@ -401,6 +450,13 @@ public class Scissor {
       
       x += (sin(angle) + Math.random()) * preyMove - preyMove / 2f;
       y += (cos(angle) + Math.random()) * preyMove - preyMove / 2f; 
+      
+      explore = false;
+    }
+    
+    if (explore) {
+      x += (Math.random() * explorationMove) - explorationMove / 2f;
+      y += (Math.random() * explorationMove) - explorationMove / 2f;
     }
     
     x += (Math.random() * randomMove) - randomMove / 2f;
@@ -445,7 +501,9 @@ public class Scissor {
     Rock closestRock = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Rock rock : rocks) {
+    for (int i = 0; i < rocks.size(); i++) {
+      Rock rock = rocks.get(i);
+      
       float rockDistance = dist(x, y, rock.getX(), rock.getY());
       
       if (closestRock == null || rockDistance < closestDistance) {
@@ -461,7 +519,9 @@ public class Scissor {
     Paper closestPaper = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Paper paper : papers) {
+    for (int i = 0; i < papers.size(); i++) {
+      Paper paper = papers.get(i);
+      
       float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
@@ -477,7 +537,9 @@ public class Scissor {
     Scissor closestScissor = null;
     float closestDistance = Float.MAX_VALUE;
     
-    for (Scissor scissor : scissors) {
+    for (int i = 0; i < scissors.size(); i++) {
+      Scissor scissor = scissors.get(i);
+      
       float scissorDistance = dist(x, y, scissor.getX(), scissor.getY());
       
       if (closestScissor == null || scissorDistance < closestDistance) {
