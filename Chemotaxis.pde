@@ -51,7 +51,7 @@ public class Rock {
 
   private Paper closestPaper() {
     Paper closestPaper = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
 
     for (Paper paper : papers) {
       if (closestPaper == null || distance(paper.getX(), paper.getY()) < closestDistance) {
