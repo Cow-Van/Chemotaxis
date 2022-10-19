@@ -118,10 +118,10 @@ public class Rock {
   private float y;
   private int c;
   
-  public Rock(float x, float y, int c) {
-    this.x = x;
-    this.y = y;
-    this.c = c;
+  public Rock(float newX, float newY, int newC) {
+    x = newX;
+    y = newY;
+    c = newC;
   }
   
   public void move() {
@@ -195,13 +195,9 @@ public class Rock {
     return y;
   }
   
-  private float[] increments() {
-    return null;
-  }
-  
   public Rock closestRock() {
     Rock closestRock = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < rocks.size(); i++) {
       Rock rock = rocks.get(i);
@@ -219,12 +215,12 @@ public class Rock {
   
   public Paper closestPaper() {
     Paper closestPaper = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < papers.size(); i++) {
       Paper paper = papers.get(i);
       
-      float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
+      float paperDistance = dist(x, y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
         closestDistance = paperDistance;
@@ -237,7 +233,7 @@ public class Rock {
   
   public Scissor closestScissor() {
     Scissor closestScissor = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < scissors.size(); i++) {
       Scissor scissor = scissors.get(i);
@@ -253,12 +249,12 @@ public class Rock {
     return closestScissor;
   }
   
-  private float vector(float x, float y) {
-    if (dist(x, y, this.x, this.y) == 0) {
+  private float vector(float newX, float newY) {
+    if (dist(newX, newY, x, y) == 0) {
       return (float) (Math.random() * TWO_PI);
     }
     
-    return acos((this.y - y) / dist(x, y, this.x, this.y)) * ((this.x - x < 0) ? -1 : 1);
+    return acos((y - newY) / dist(newX, newY, x, y)) * ((x - newX < 0) ? -1 : 1);
   }
 }
 
@@ -267,10 +263,10 @@ public class Paper {
   private float y;
   private int c;
   
-  public Paper(float x, float y, int c) {
-    this.x = x;
-    this.y = y;
-    this.c = c;
+  public Paper(float newX, float newY, int newC) {
+    x = newX;
+    y = newY;
+    c = newC;
   }
   
   public void move() {
@@ -344,13 +340,9 @@ public class Paper {
     return y;
   }
   
-  private float[] increments() {
-    return null;
-  }
-  
   public Rock closestRock() {
     Rock closestRock = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < rocks.size(); i++) {
       Rock rock = rocks.get(i);
@@ -368,12 +360,12 @@ public class Paper {
   
   public Paper closestPaper() {
     Paper closestPaper = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < papers.size(); i++) {
       Paper paper = papers.get(i);
       
-      float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
+      float paperDistance = dist(x, y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
         closestDistance = paperDistance;
@@ -386,7 +378,7 @@ public class Paper {
   
   public Scissor closestScissor() {
     Scissor closestScissor = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < scissors.size(); i++) {
       Scissor scissor = scissors.get(i);
@@ -402,12 +394,12 @@ public class Paper {
     return closestScissor;
   }
   
-  private float vector(float x, float y) {
-    if (dist(x, y, this.x, this.y) == 0) {
+  private float vector(float newX, float newY) {
+    if (dist(newX, newY, x, y) == 0) {
       return (float) (Math.random() * TWO_PI);
     }
     
-    return acos((this.y - y) / dist(x, y, this.x, this.y)) * ((this.x - x < 0) ? -1 : 1);
+    return acos((y - newY) / dist(newX, newY, x, y)) * ((x - newX < 0) ? -1 : 1);
   }
 }
 
@@ -416,10 +408,10 @@ public class Scissor {
   private float y;
   private int c;
   
-  public Scissor(float x, float y, int c) {
-    this.x = x;
-    this.y = y;
-    this.c = c;
+  public Scissor(float newX, float newY, int newC) {
+    x = newX;
+    y = newY;
+    c = newC;
   }
   
   public void move() {
@@ -493,13 +485,9 @@ public class Scissor {
     return y;
   }
   
-  private float[] increments() {
-    return null;
-  }
-  
   public Rock closestRock() {
     Rock closestRock = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < rocks.size(); i++) {
       Rock rock = rocks.get(i);
@@ -517,12 +505,12 @@ public class Scissor {
   
   public Paper closestPaper() {
     Paper closestPaper = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < papers.size(); i++) {
       Paper paper = papers.get(i);
       
-      float paperDistance = dist(this.x, this.y, paper.getX(), paper.getY());
+      float paperDistance = dist(x, y, paper.getX(), paper.getY());
       
       if (closestPaper == null || paperDistance < closestDistance) {
         closestDistance = paperDistance;
@@ -535,7 +523,7 @@ public class Scissor {
   
   public Scissor closestScissor() {
     Scissor closestScissor = null;
-    float closestDistance = Float.MAX_VALUE;
+    float closestDistance = MAX_FLOAT;
     
     for (int i = 0; i < scissors.size(); i++) {
       Scissor scissor = scissors.get(i);
@@ -551,11 +539,11 @@ public class Scissor {
     return closestScissor;
   }
   
-  private float vector(float x, float y) {
-    if (dist(x, y, this.x, this.y) == 0) {
+  private float vector(float newX, float newY) {
+    if (dist(newX, newY, x, y) == 0) {
       return (float) (Math.random() * TWO_PI);
     }
     
-    return acos((this.y - y) / dist(x, y, this.x, this.y)) * ((this.x - x < 0) ? -1 : 1);
+    return acos((y - newY) / dist(newX, newY, x, y)) * ((x - newX < 0) ? -1 : 1);
   }
 }
