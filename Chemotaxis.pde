@@ -23,16 +23,16 @@ public final ArrayList<Scissor> scissors = new ArrayList();
 public void setup() {
   size(750, 750);
   
-  //for (int i = 0; i < totalUnits; i++) {
-  //  double d = Math.random();
-  //  if (d < 1/3d) {
-  //    rocks.add(new Rock((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), rockColor));
-  //  } else if (d < 2/3d) {
-  //    papers.add(new Paper((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), paperColor));
-  //  } else {
-  //    scissors.add(new Scissor((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), scissorColor));
-  //  }
-  //}
+  for (int i = 0; i < totalUnits; i++) {
+    double d = Math.random();
+    if (d < 1 / (float) 3) {
+      rocks.add(new Rock((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), rockColor));
+    } else if (d < 2 / (float) 3) {
+      papers.add(new Paper((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), paperColor));
+    } else {
+      scissors.add(new Scissor((float) (Math.random() * (width - 20)), (float) (Math.random() * (height - 20)), scissorColor));
+    }
+  }
 }
 
 public void draw() {   
