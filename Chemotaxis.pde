@@ -1,4 +1,4 @@
-public final float totalUnits = 2000;
+public final float totalUnits = 750;
 public final float killRange = 20;
 public final int rockColor = #00ff00;
 public final int paperColor = #ff0000;
